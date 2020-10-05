@@ -1,3 +1,4 @@
+// Your Code Here
 // Set up the chart
 var svgWidth = 960;
 var svgHeight = 500;
@@ -5,7 +6,7 @@ var svgHeight = 500;
 var margin = {
   top: 20,
   right: 40,
-  bottom: 80,
+  bottom: 60,
   left: 100
 };
 
@@ -13,40 +14,35 @@ var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
 
-// Create an SVG wrapper, append SVG group.
-var svg = d3
-  .select(".chart")
+// Create an SVG wrapper, append an SVG group 
+var svg = d3.select("#scatter")
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
 
 // Append an SVG group
 var chartGroup = svg.append("g")
-.attr("transform", `translate(${margin.left}, ${margin.top})`);
+  .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Import data from the data.csv file
-d3.csv("assets/data/data.csv").then(function(healthData) {
+d3.csv("data.csv").then(function(healthData) {
     console.log(healthData);
 
     // Cast data we need as numbers
     // ==============================
     healthData.forEach(function(data) {
         data.poverty = +data.poverty;
-        data.age = +data.age;
-        data.income = +data.income;
-        data.healthcare = +data.healthcare;
-        data.obesity = +data.obesity;
-        data.smokes = +data.smokes;    
+        data.healthcare = +data.healthcare;   
     });
 
     // Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([d3.min(healthData, d => d.poverty), d3.max(healthData, d => d.poverty)])
+      .domain([d3.min(healthData, d => d.poverty -1), d3.max(healthData, d => d.poverty +1)])
       .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([d3.min(healthData, d => d.healthcare), d3.max(healthData, d => d.healthcare)])
+      .domain([d3.min(healthData, d => d.healthcare -1), d3.max(healthData, d => d.healthcare +1)])
       .range([height, 0]);
 
     // Create axis functions
@@ -79,11 +75,11 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
     // ==============================
     var toolTip = d3.tip()
       .attr("class", "d3-tip")
-      .offset([80, -60])
+      .offset([10, -10])
       .html(function(d) {
-          return d.abbr;
-      });
-
+          return (`${d.abbr}`)
+        });
+      
     // Create tooltip in the chart
     // ==============================
     chartGroup.call(toolTip);
@@ -113,4 +109,6 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
       .text("Poverty");
 }).catch(function(error) {
     console.log(error);
-});
+ 
+
+  });
