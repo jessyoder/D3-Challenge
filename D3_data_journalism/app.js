@@ -106,7 +106,7 @@ d3.csv("data.csv").then(function(healthData) {
     chartGroup.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
       .attr("class", "aText")
-      .text("Living in Poverty");
+      .text("Living in Poverty (%)");
 }).catch(function(error) {
     console.log(error);
  
