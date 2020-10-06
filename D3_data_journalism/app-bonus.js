@@ -94,6 +94,14 @@ function updateToolTip(chosenXAxis, circlesGroup) {
   return circlesGroup;
 }
 
+var toolTip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([10, -10])
+    .html(function(d) {
+      return (`${d.abbr}`);
+    });
+svg.call(toolTip);
+
 // Retrieve data from the CSV file and execute everything below
 d3.csv("data.csv").then(function(healthData, err) {
   if (err) throw err;
@@ -124,23 +132,20 @@ d3.csv("data.csv").then(function(healthData, err) {
     .attr("transform", `translate(0, ${height})`)
     .call(bottomAxis);
 
-  // append y axis
+  // // append y axis
   chartGroup.append("g")
     .call(leftAxis);
 
-    var circlesGroup = chartGroup.selectAll("g circlesGroup").data(healthData).enter()
-    circlesGroup.append("circle")
-        .attr("cx", d => xLinearScale(d[chosenXAxis]))
-        .attr("cy", d => yLinearScale(d.income))
-        .attr("r", 20)
-        .attr("fill", "#89bdd3")
-        .attr("opacity", ".5")
-    circlesGroup.append("text")
-        .text(function(d) {
-          return d.abbr;
-        })
-        .attr("dx", d => xLinearScale(d[chosenXAxis] - .4))
-        .attr("dy", d => yLinearScale(d.income))
+  // append initial circles
+  var circlesGroup = chartGroup.selectAll("circle")
+    .data(healthData)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d[chosenXAxis]))
+    .attr("cy", d => yLinearScale(d.income))
+    .attr("r", 20)
+    .attr("fill", "#89bdd3")
+    .attr("opacity", ".5")
 
   // Create group for two x-axis labels
   var labelsGroup = chartGroup.append("g")
