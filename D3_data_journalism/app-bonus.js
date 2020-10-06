@@ -12,7 +12,6 @@ var margin = {
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
-
 // Create an SVG wrapper, append an SVG group 
 var svg = d3.select("#scatter")
   .append("svg")
@@ -129,23 +128,19 @@ d3.csv("data.csv").then(function(healthData, err) {
   chartGroup.append("g")
     .call(leftAxis);
 
-  // append initial circles
-  var circlesGroup = chartGroup.selectAll("circle")
-    .data(healthData)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xLinearScale(d[chosenXAxis]))
-    .attr("cy", d => yLinearScale(d.income))
-    .attr("r", 20)
-    .attr("fill", "#89bdd3")
-    .attr("opacity", ".5")
-    .append("text")
-    .text(function(d) {
-      return d.abbr;
-    })
-    .attr("dx", function(d) {
-      return xScale(d[chosenXAxis])
-    });
+    var circlesGroup = chartGroup.selectAll("g circlesGroup").data(healthData).enter()
+    circlesGroup.append("circle")
+        .attr("cx", d => xLinearScale(d[chosenXAxis]))
+        .attr("cy", d => yLinearScale(d.income))
+        .attr("r", 20)
+        .attr("fill", "#89bdd3")
+        .attr("opacity", ".5")
+    circlesGroup.append("text")
+        .text(function(d) {
+          return d.abbr;
+        })
+        .attr("dx", d => xLinearScale(d[chosenXAxis] - .4))
+        .attr("dy", d => yLinearScale(d.income))
 
   // Create group for two x-axis labels
   var labelsGroup = chartGroup.append("g")

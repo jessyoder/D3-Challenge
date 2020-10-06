@@ -61,15 +61,21 @@ d3.csv("data.csv").then(function(healthData) {
 
     // Create Circles
     // ==============================
-    var circlesGroup = chartGroup.selectAll("circle")
-    .data(healthData)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xLinearScale(d.poverty))
-    .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", "15")
-    .attr("fill", "#89bdd3")
-    .attr("opacity", ".5");
+    var circlesGroup = chartGroup.selectAll("g circlesgroup")
+      .data(healthData)
+      .enter()
+      .append("circle")
+      .attr("cx", d => xLinearScale(d.poverty))
+      .attr("cy", d => yLinearScale(d.healthcare))
+      .attr("r", "15")
+      .attr("fill", "#89bdd3")
+      .attr("opacity", ".5");
+    circlesGroup.append("text")
+      .text(function(d) {
+        return d.abbr;
+      })
+      .attr("dx", d => xLinearScale(d.poverty))
+      .attr("dy", d => yLinearScale(d.healthcare));
 
     // Initialize tool tip
     // ==============================
