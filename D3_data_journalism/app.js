@@ -38,11 +38,11 @@ d3.csv("data.csv").then(function(healthData) {
     // Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([d3.min(healthData, d => d.poverty -1), d3.max(healthData, d => d.poverty +1)])
+      .domain([d3.min(healthData, d => d.poverty) -1, d3.max(healthData, d => d.poverty) +1])
       .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([d3.min(healthData, d => d.healthcare -1), d3.max(healthData, d => d.healthcare +1)])
+      .domain([d3.min(healthData, d => d.healthcare) -1, d3.max(healthData, d => d.healthcare) +1])
       .range([height, 0]);
 
     // Create axis functions
@@ -101,12 +101,12 @@ d3.csv("data.csv").then(function(healthData) {
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "aText")
-      .text("Healthcare");
+      .text("Lacks Healthcare (%)");
 
     chartGroup.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
       .attr("class", "aText")
-      .text("Poverty");
+      .text("Living in Poverty");
 }).catch(function(error) {
     console.log(error);
  
