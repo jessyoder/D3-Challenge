@@ -1,4 +1,5 @@
 // Your Code Here
+
 // Set up the chart
 var svgWidth = 960;
 var svgHeight = 500;
@@ -47,17 +48,17 @@ d3.csv("data.csv").then(function(healthData) {
 
     // Create axis functions
     // ==============================
-    var bottomAxis = d3.axisBottom(xLinearScale);
-    var leftAxis = d3.axisLeft(yLinearScale);
+    var xAxis = d3.axisBottom(xLinearScale);
+    var yAxis = d3.axisLeft(yLinearScale);
 
     // Append Axes to the chart
     // ==============================
     chartGroup.append("g")
       .attr("transform", `translate(0, ${height})`)
-      .call(bottomAxis);
+      .call(xAxis);
 
     chartGroup.append("g")
-      .call(leftAxis);
+      .call(yAxis);
 
     // Create Circles
     // ==============================
@@ -77,29 +78,6 @@ d3.csv("data.csv").then(function(healthData) {
       .attr("dy", d => yLinearScale(d.healthcare) + 10/2.5)
       .attr('class','stateText')
 
-    // // Initialize tool tip
-    // // ==============================
-    var toolTip = d3.tip()
-      .attr("class", "d3-tip")
-      .offset([10, -10])
-      .html(function(d) {
-          return (`${d.abbr}`)
-        });
-      
-    // Create tooltip in the chart
-    // ==============================
-    chartGroup.call(toolTip);
-
-    // Create event listeners to display and hide the tooltip
-    // ==============================
-    circlesGroup.on("mouseover", function(data) {
-        toolTip.show(data, this);
-      })
-        // onmouseout event
-        .on("mouseout", function(data, index) {
-          toolTip.hide(data);
-        });
-
     // Create axes labels
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
@@ -115,6 +93,5 @@ d3.csv("data.csv").then(function(healthData) {
       .text("Living in Poverty (%)");
 }).catch(function(error) {
     console.log(error);
- 
-
   });
+

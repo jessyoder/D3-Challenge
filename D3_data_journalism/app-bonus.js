@@ -65,7 +65,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
   var label;
 
   if (chosenXAxis === "healthcare") {
-    label = "Lacks Healthcare (%)";
+    label = "Lacks Healthcare";
   }
   else if (chosenXAxis === "obesity") {
     label = "Obesity"
@@ -78,7 +78,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     .attr("class", "d3-tip")
     .offset([10, -10])
     .html(function(d) {
-      return (`${d.abbr}`);
+      return (`${d.abbr}<br>${label}: ${d[chosenXAxis]}%<br>${"Median Income"}: $${d.income}`);
     });
 
   circlesGroup.call(toolTip);
